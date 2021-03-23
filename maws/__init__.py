@@ -1,0 +1,1 @@
+from maws.s3 import S3Client
