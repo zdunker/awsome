@@ -2,13 +2,13 @@ from distutils.core import setup
 setup(
     name='awsome',
     packages=['awsome'],
-    version='0.1.1',
+    version='0.1.2',
     license='MIT',
     description='aws utilities to make my life easier',
     author='zdunker',
     author_email='robinli.forwork@gmail.com',
     url='https://github.com/zdunker/awsome',
-    download_url='https://github.com/zdunker/awsome/archive/refs/tags/0.1.1.tar.gz',
+    download_url='https://github.com/zdunker/awsome/archive/refs/tags/0.1.2.tar.gz',
     keywords=['aws', 'utility'],
     install_requires=[
         'boto3',
