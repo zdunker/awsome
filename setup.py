@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(
-    name='maws',
-    packages=['maws'],
+    name='awsome',
+    packages=['awsome'],
     version='0.1',
     license='MIT',
     description='aws utilities to make my life easier',
