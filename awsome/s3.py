@@ -37,3 +37,12 @@ class S3Client(object):
         import io
         data = io.BytesIO(data_in_bytes)
         self.client.upload_fileobj(data, self.bucket, key)
+    
+    def ls(self, dir=""):
+        if len(dir) != 0 and dir[-1] != "/":
+            dir = dir+"/"
+        prefixes = self.client.list_objects(Bucket=self.bucket, Delimiter="/", Prefix=dir).get("CommonPrefixes")
+        subdirs = [prefix["Prefix"].replace(dir, "") for prefix in prefixes]
+        return subdirs
+        
+    
