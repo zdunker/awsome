@@ -11,11 +11,11 @@ class S3Client(object):
         self.region = region
         self.bucket = bucket
 
-    def get_objects(self, prefix, filter_fn, max_keys=100, token=""):
+    def get_objects(self, prefix, max_keys=100, token=""):
         response = self.client.list_objects_v2(
             Bucket=self.bucket,
             Prefix=prefix,
-            MaxKeys=max_keys,
+            MaxKeys=max_keys
         ) if token == "" else self.client.list_objects_v2(
             Bucket=self.bucket,
             Prefix=prefix,
@@ -26,7 +26,7 @@ class S3Client(object):
         if "NextContinuationToken" in response.keys():
             # no next page of this query
             next_token = response["NextContinuationToken"]
-        return filter(filter_fn, response["Contents"]), next_token
+        return response.get("Contents", []), next_token
 
     def get_file_data_by_key(self, key):
         return self.client.get_object(
@@ -37,12 +37,11 @@ class S3Client(object):
         import io
         data = io.BytesIO(data_in_bytes)
         self.client.upload_fileobj(data, self.bucket, key)
-    
+
     def ls(self, dir=""):
         if len(dir) != 0 and dir[-1] != "/":
             dir = dir+"/"
-        prefixes = self.client.list_objects(Bucket=self.bucket, Delimiter="/", Prefix=dir).get("CommonPrefixes")
+        prefixes = self.client.list_objects(
+            Bucket=self.bucket, Delimiter="/", Prefix=dir).get("CommonPrefixes")
         subdirs = [prefix["Prefix"].replace(dir, "") for prefix in prefixes]
         return subdirs
-        
-    
